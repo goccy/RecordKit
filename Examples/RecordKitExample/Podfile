@@ -1,0 +1,11 @@
+#!/usr/bin/ruby
+platform :ios, '8.0'
+use_frameworks!
+
+target "RecordKitExample" do
+  pod 'RecordKit', :path => '../../'
+end
+
+target "RecordKitExampleTests" do
+  pod 'RecordKit', :path => '../../'
+end

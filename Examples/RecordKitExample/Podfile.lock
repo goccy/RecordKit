@@ -1,0 +1,16 @@
+PODS:
+  - RecordKit (1.0.0)
+
+DEPENDENCIES:
+  - RecordKit (from `../../`)
+
+EXTERNAL SOURCES:
+  RecordKit:
+    :path: "../../"
+
+SPEC CHECKSUMS:
+  RecordKit: 798e0cdf60a4d03dfed559a939dd4ca1f60f370f
+
+PODFILE CHECKSUM: 52cc90e8e8ce3ef63c0a2aaced18ac6b07fe11ef
+
+COCOAPODS: 1.2.0
