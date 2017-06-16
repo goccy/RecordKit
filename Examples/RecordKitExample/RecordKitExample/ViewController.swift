@@ -9,12 +9,14 @@
 import UIKit
 import AVKit
 import AVFoundation
+import RecordKit
 
 class ViewController: AVPlayerViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.playMovieFromProjectBundle()
+        RKRecorder.sharedInstance().autoRecord(forSeconds: 3, withDelay: 0)
     }
     
     func playMovieFromProjectBundle() {

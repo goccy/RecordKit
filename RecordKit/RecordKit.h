@@ -14,6 +14,4 @@ FOUNDATION_EXPORT double RecordKitVersionNumber;
 //! Project version string for RecordKit.
 FOUNDATION_EXPORT const unsigned char RecordKitVersionString[];
 
-// In this header, you should import all the public headers of your framework using statements like #import <RecordKit/PublicHeader.h>
-
-
+#import <RecordKit/RKRecorder.h>
