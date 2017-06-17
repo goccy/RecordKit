@@ -8,8 +8,9 @@ Pod::Spec.new do |s|
   s.license      = { :type => 'MIT' }
   s.author       = { "goccy" => "goccy54@gmail.com" }
   s.requires_arc = true
-  s.public_header_files = "RecordKit/RecordKit.h", "RecordKit/RecordKitBridge.h"
   s.ios.frameworks = "OpenGLES", "QuartzCore", "CoreMedia", "CoreVideo", "AVFoundation", "AudioToolbox", "AssetsLibrary"
   s.source_files   = "RecordKit/*.{h,m,mm}"
   s.source = { :git => "git@github.com:goccy/RecordKit.git" }
+  #s.public_header_files = "RecordKit/RecordKit.h", "RecordKit/RecordKitBridge.h"
+  #s.xcconfig = { 'SWIFT_OBJC_BRIDGING_HEADER' => '$(PODS_ROOT)/../../../RecordKit/RecordKit.h' }
 end
