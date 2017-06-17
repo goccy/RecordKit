@@ -43,7 +43,7 @@
 /**
  * Stops the current recording.
  */
-- (BOOL)stopRecording;
+- (BOOL)stopRecording:(void(^)(NSURL *recordedFileURL, NSError *error))completionBlock;
 
 /**
  * automatically recording the app display and sound ( for testing )

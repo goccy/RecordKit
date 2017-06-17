@@ -14,6 +14,8 @@
 
 @interface RKScreenRecorder()
 
+@property(nonatomic, readwrite) NSURL *screenFileURL;
+
 @property(nonatomic) CGSize defaultScreenSize;
 @property(nonatomic) CGFloat screenScale;
 
@@ -36,6 +38,17 @@
 @implementation RKScreenRecorder
 
 static const NSInteger RGBA = 4;
+static RKScreenRecorder *g_sharedInstance = nil;
+
++ (instancetype)sharedInstance
+{
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        g_sharedInstance = [RKScreenRecorder new];
+        g_sharedInstance.screenFileURL = [RKRecordFile fileURL:@"screen.mp4"];
+    });
+    return g_sharedInstance;
+}
 
 - (void)setupScreenSize
 {
@@ -70,15 +83,10 @@ static const NSInteger RGBA = 4;
     };
 }
 
-- (NSURL *)defaultRecordFileURL
-{
-    return [RKRecordFile fileURL:@"screen.mp4"];
-}
-
 - (BOOL)setupScreenWriter
 {
     NSError *error = nil;
-    self.screenWriter = [[AVAssetWriter alloc] initWithURL:[self defaultRecordFileURL]
+    self.screenWriter = [[AVAssetWriter alloc] initWithURL:self.screenFileURL
                                                   fileType:AVFileTypeMPEG4
                                                      error:&error];
     if (error != nil) {
@@ -105,7 +113,7 @@ static const NSInteger RGBA = 4;
 
 - (BOOL)startRecording
 {
-    [RKRecordFile removeFileIfExistsPath:[self defaultRecordFileURL].path];
+    [RKRecordFile removeFileIfExistsPath:self.screenFileURL.path];
     [self setupScreenSize];
 
     self.displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(capture)];
@@ -119,7 +127,7 @@ static const NSInteger RGBA = 4;
     return NO;
 }
 
-- (void)stopRecording
+- (void)stopRecording:(void(^)(void))completionHandler
 {
     [self.displayLink removeFromRunLoop:[NSRunLoop mainRunLoop] forMode:NSRunLoopCommonModes];
     self.displayLink = nil;
@@ -129,7 +137,8 @@ static const NSInteger RGBA = 4;
 
     [self.screenWriterInput markAsFinished];
     [self.screenWriter finishWritingWithCompletionHandler:^{
-        NSLog(@"write %@", [self defaultRecordFileURL]);
+        NSLog(@"write %@", self.screenFileURL.path);
+        if (completionHandler) completionHandler();
     }];
 }
 

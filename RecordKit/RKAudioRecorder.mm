@@ -16,6 +16,8 @@
 
 @property(nonatomic, readwrite) ExtAudioFileRef audioFile;
 
+@property(nonatomic, readwrite) NSURL *audioFileURL;
+
 @end
 
 @implementation RKAudioRecorder
@@ -27,13 +29,9 @@ static RKAudioRecorder *g_sharedInstance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         g_sharedInstance = [RKAudioRecorder new];
+        g_sharedInstance.audioFileURL = [RKRecordFile fileURL:@"audio.aiff"];
     });
     return g_sharedInstance;
-}
-
-- (NSURL *)defaultRecordFileURL
-{
-    return [RKRecordFile fileURL:@"audio.aiff"];
 }
 
 - (BOOL)startRecording
@@ -54,7 +52,7 @@ static RKAudioRecorder *g_sharedInstance = nil;
     createASBD.mFormatFlags      = kLinearPCMFormatFlagIsBigEndian|kLinearPCMFormatFlagIsSignedInteger|kLinearPCMFormatFlagIsPacked;
     createASBD.mBitsPerChannel   = 16;
     
-    if (ExtAudioFileCreateWithURL((__bridge CFURLRef)[self defaultRecordFileURL],
+    if (ExtAudioFileCreateWithURL((__bridge CFURLRef)self.audioFileURL,
                                   kAudioFileAIFFType,
                                   &createASBD,
                                   NULL,
@@ -77,7 +75,7 @@ static RKAudioRecorder *g_sharedInstance = nil;
 {
     self.isRecording = NO;
     ExtAudioFileDispose(self.audioFile);
-    NSLog(@"write file %@", [self defaultRecordFileURL].path);
+    NSLog(@"write file %@", self.audioFileURL.path);
 }
 
 + (void)injectAudioUnitProxy

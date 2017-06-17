@@ -14,6 +14,7 @@
 
 @property(nonatomic, readonly) BOOL isRecording;
 @property(nonatomic, readonly) ExtAudioFileRef audioFile;
+@property(nonatomic, readonly) NSURL *audioFileURL;
 
 + (instancetype)sharedInstance;
 

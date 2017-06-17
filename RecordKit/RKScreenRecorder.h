@@ -10,8 +10,12 @@
 
 @interface RKScreenRecorder : NSObject
 
+@property(nonatomic, readonly) NSURL *screenFileURL;
+
++ (instancetype)sharedInstance;
+
 - (BOOL)startRecording;
 
-- (void)stopRecording;
+- (void)stopRecording:(void(^)(void))completionHandler;
 
 @end
