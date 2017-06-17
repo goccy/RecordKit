@@ -8,6 +8,7 @@
 
 #import "RKRecorder.h"
 #import "RKScreenRecorder.h"
+#import "RKAudioRecorder.h"
 
 @interface RKRecorder()
 
@@ -45,12 +46,14 @@ static RKRecorder *g_sharedInstance = nil;
 {
     self.screenRecorder = [RKScreenRecorder new];
     [self.screenRecorder startRecording];
+    [[RKAudioRecorder sharedInstance] startRecording];
     return YES;
 }
 
 - (BOOL)stopRecording
 {
     [self.screenRecorder stopRecording];
+    [[RKAudioRecorder sharedInstance] stopRecording];
     return YES;
 }
 
